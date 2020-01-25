@@ -1,0 +1,90 @@
+#include<windows.h>
+#include <stdio.h>
+#include <GL/glut.h>
+
+int x = 50, y = 50;
+
+
+void White(int x, int y)
+{
+	glBegin(GL_LINE_LOOP);
+
+	glVertex2i(x, y);
+	glVertex2i(x, y + 50);
+	glVertex2i(x + 50, y + 50);
+	glVertex2i(x + 50, y);
+	glEnd();
+}
+
+void Black(int x, int y)
+{
+	glBegin(GL_POLYGON);
+
+	glVertex2i(x, y);
+	glVertex2i(x, y + 50);
+	glVertex2i(x + 50, y + 50);
+	glVertex2i(x + 50, y);
+	glEnd();
+}
+
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.0, 0.0, 0.0);
+
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (i % 2 == 0)
+		{
+			for (int j = 0; j < 8; j++){
+            if (j % 2 == 0){
+               Black(x, y);
+                x+=50;
+            }
+            else{
+                White(x, y);
+                  x+=50;
+            }
+			}
+		}
+		else
+		{
+		for (int j = 0; j < 8; j++){
+            if (j % 2 == 0){
+
+               White(x, y);
+                x+=50;
+            }
+            else{
+                Black(x, y);
+                  x+=50;
+        }
+			}
+		}
+		y += 50;
+		x = 50;
+		glFlush();
+	}
+}
+
+void InitGL(void)
+{
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glPointSize(1.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 640.0, 0.0, 480.0);
+}
+
+int main(int argc, char** argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(800, 600);
+	glutInitWindowPosition(0,0);
+	glutCreateWindow("Chess Board");
+	glutDisplayFunc(display);
+	InitGL();
+	glutMainLoop();
+}
